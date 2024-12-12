@@ -52,8 +52,7 @@ services:
     networks:
       - kafka-network
     environment:
-      BOOTSTRAP_SERVERS: kafka:9092
-      KAFKA_TOPIC: user-login
+      ENV: prod
 
 networks:
   kafka-network:

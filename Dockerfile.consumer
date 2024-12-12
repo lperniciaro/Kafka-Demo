@@ -3,11 +3,16 @@ FROM python:3.9-slim
 # Set working directory
 WORKDIR /app
 
-# Copy the Python script
+# Copy the Python script and requirements.txt
 COPY consumer.py /app/
+COPY requirements.txt /app/
+COPY .env.prod /app/
+
+# Export environment variables from .env
+RUN export $(grep -v '^#' .env.prod | xargs)
 
 # Install required dependencies
-RUN pip install confluent-kafka
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Command to run the consumer
 CMD ["python", "consumer.py"]

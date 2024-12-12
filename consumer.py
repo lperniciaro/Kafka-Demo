@@ -1,24 +1,33 @@
 import json
 import time
+import os
+from dotenv import load_dotenv
 from confluent_kafka import Consumer, Producer, KafkaException
 from datetime import datetime
 from collections import Counter
 
+load_dotenv('.env.prod') #Comment this line for local development
+
+# Load environment variables
+BOOTSTRAP_SERVERS = os.getenv('BOOTSTRAP_SERVERS', 'localhost:29092')
+KAFKA_TOPIC = os.getenv('KAFKA_TOPIC', 'user-login')
+GROUP_ID = os.getenv('GROUP_ID', 'user-login-consumer-group')
+
 # Configuration for Kafka Consumer
 consumer_config = {
-    'bootstrap.servers': 'localhost:29092',
-    'group.id': 'user-login-consumer-group',
+    'bootstrap.servers': BOOTSTRAP_SERVERS,
+    'group.id': GROUP_ID,
     'auto.offset.reset': 'earliest'
 }
 
 # Configuration for Kafka Producer
 producer_config = {
-    'bootstrap.servers': 'localhost:29092'
+    'bootstrap.servers': BOOTSTRAP_SERVERS
 }
 
 # Initialize Kafka Consumer
 consumer = Consumer(consumer_config)
-consumer.subscribe(['user-login'])
+consumer.subscribe([KAFKA_TOPIC])
 
 # Initialize Kafka Producer
 producer = Producer(producer_config)
