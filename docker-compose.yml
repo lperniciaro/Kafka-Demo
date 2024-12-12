@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -40,6 +42,18 @@ services:
       KAFKA_TOPIC: user-login
     networks:
       - kafka-network
+
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile.consumer
+    depends_on:
+      - kafka
+    networks:
+      - kafka-network
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_TOPIC: user-login
 
 networks:
   kafka-network:
