@@ -17,6 +17,7 @@ Every 10 seconds aggregations of key data points are sent to this topic to view 
 
 - **Docker Desktop** (https://docs.docker.com/get-docker/)
 - **Python 3.9+** (https://www.python.org/)
+- **Microsoft Visual C++ 14.0 Build Tools** (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 
 ## Project Setup
 
