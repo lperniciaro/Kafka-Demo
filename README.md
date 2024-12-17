@@ -26,7 +26,9 @@ For Local Development
 ## Project Setup
 
 ### Configure environment variables
-Set custom variables as needed .env.prod is preconfigured for docker environment.
+Set custom variables as needed 
+
+.env.prod is preconfigured for docker environment.
 
 BOOTSTRAP_SERVERS=kafka:9092
 
@@ -45,7 +47,7 @@ docker compose up --build
 
 Kafka will be running on `localhost:29092` for local development, and `kafka:9092` in docker. The data generator will produce messages in the `user-login` topic.
 
-The python Kafka consumer will run in it's own Docker container.
+The python Kafka consumer will run in it's own Docker container, consuming `user-login` and producing `processed-user-login` and `aggregated-user-login`
 
 Sample output:
 
