@@ -1,5 +1,8 @@
 # Kafka-Demo
 
+⚠️ **Disclaimer**  
+This project was developed with the assistance of generative AI tools.
+
 ## Overview
 Real-time streaming data pipeline using **Kafka** and **Docker**. Streaming data from Kafka is consumed in Python where aggregation metrics are calculated and reingested in a Kafka. The following new topics are produced:
 
