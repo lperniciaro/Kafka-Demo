@@ -6,7 +6,7 @@ from confluent_kafka import Consumer, Producer, KafkaException
 from datetime import datetime
 from collections import Counter
 
-load_dotenv('.env.prod') #Comment this line for local development
+load_dotenv('.env.prod') #Comment this line for local (non docker) testing
 
 # Load environment variables
 BOOTSTRAP_SERVERS = os.getenv('BOOTSTRAP_SERVERS', 'localhost:29092')
@@ -44,6 +44,20 @@ def send_to_new_topic(processed_message):
         print(f"Sent to 'processed-user-login': {processed_message}")
     except Exception as e:
         print(f"Error sending message to new topic: {e}")
+
+def send_aggregations_to_topic():
+    try:
+        aggregations = {
+            'most_popular_app_versions': app_version_counter.most_common(3),
+            'most_popular_device_types': device_type_counter.most_common(3),
+            'most_common_locales': locale_counter.most_common(3),
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+        producer.produce('aggregated-user-login', json.dumps(aggregations).encode('utf-8'))
+        producer.flush()
+        print(f"Sent to 'aggregated-user-login': {aggregations}")
+    except Exception as e:
+        print(f"Error sending aggregations to new topic: {e}")
 
 def handle_missing_fields(message):
     """Ensure all required fields are present, substituting defaults for missing fields."""
@@ -114,13 +128,14 @@ try:
         except Exception as e:
             print(f"Error processing message: {e}")
 
-        # Periodically print insights
+        # Periodically print insights and send aggregations
         if int(time.time()) % 10 == 0:  # Every 10 seconds
             print("\n--- Insights ---")
             print("Most Popular App Versions:", app_version_counter.most_common(3))
             print("Most Popular Device Types:", device_type_counter.most_common(3))
             print("Most Common Locales:", locale_counter.most_common(3))
             print("----------------\n")
+            send_aggregations_to_topic()
 
 except KeyboardInterrupt:
     print("\nStopping Kafka Consumer...")
