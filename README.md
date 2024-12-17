@@ -9,6 +9,7 @@ Cleans user data by replacing missing fields with 'unknown'
 aggregated-user-login:
 Every 10 seconds aggregations of key data points are sent to this topic to view trends.
 
+![Technical Diagram](technical_diagram.jpg)
 
 ## Prerequisites
 
