@@ -1,7 +1,7 @@
 # Kafka-Demo
 
 ## Overview
-Real-time streaming data pipeline using **Kafka** and **Docker**. Streaming data from Kafka is consumed in Python where aggregation metrics are calculated and reingested in a Kafka. The metrics are sent to the new Kafka topic processed-user-login.
+Real-time streaming data pipeline using **Kafka** and **Docker**. Streaming data from Kafka is consumed in Python where aggregation metrics are calculated and reingested in a Kafka. The following new topics are produced:
 
 processed-user-login:
 Cleans user data by replacing missing fields with 'unknown'
@@ -23,12 +23,16 @@ For Local Development
 
 ### Configure environment variables
 Set custom variables as needed .env.prod is preconfigured for docker environment.
+
 BOOTSTRAP_SERVERS=kafka:9092
+
 KAFKA_TOPIC=user-login
+
 GROUP_ID=user-login-consumer-group
 
 ### Docker compose set up
 Kafka, the data generator, and the kafka consumer are build into the docker compose file.
+
 To start:
 
 ```bash
